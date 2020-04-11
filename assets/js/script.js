@@ -13,7 +13,6 @@ var createTask = function(taskText, taskDate, taskList) {
   // append span and p element to parent li
   taskLi.append(taskSpan, taskP);
 
-
   // append to ul list on the page
   $("#list-" + taskList).append(taskLi);
 };
@@ -45,9 +44,6 @@ var saveTasks = function() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
-
-
-
 // modal was triggered
 $("#task-form-modal").on("show.bs.modal", function() {
   // clear values
@@ -77,25 +73,48 @@ $("#task-form-modal .btn-primary").click(function() {
       text: taskText,
       date: taskDate
     });
-
     saveTasks();
-
-    $(".list-group").on("click", "p", function() {
-
-      var text = $(this)
-        .text()
-        .trim();
-
-      var textInput = $("<textarea>")
-        .addClass("form-control")
-        .val(text);
-
-      $(this).replaceWith(textInput);
-
-      textInput.trigger("focus");
-    });
   }
 });
+
+$(".list-group").on("click", "p", function() {
+
+  var text = $(this)
+    .text()
+    .trim();
+
+  var textInput = $("<textarea>")
+    .addClass("form-control")
+    .val(text);
+
+  $(this).replaceWith(textInput);
+
+  textInput.trigger("focus");
+});
+
+$(".list-group").on("blur", "textarea", function() {
+  var text = $(this)
+    .val()
+    .trim();
+  var status = $(this)
+    .closest(".list-group")
+    .attr("id")
+    .replace("list-", "");
+
+  var index = $(this)
+    .closest(".list-group-item")
+    .index(); 
+
+  tasks[status][index].text = text;
+  saveTasks();  
+
+  var taskP = $("<p>")
+    .addClass("m-1")
+    .text(text);
+
+  $(this).replaceWith(taskP);
+});
+
 
 // remove all tasks
 $("#remove-tasks").on("click", function() {

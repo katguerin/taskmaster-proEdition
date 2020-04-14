@@ -229,6 +229,7 @@ $("#trash").droppable({
   tolerance: "touch",
   drop: function(event, ui) {
     console.log("drop");
+    ui.draggable.remove();
   },
   over: function(event, ui) {
     console.log("over");
@@ -236,5 +237,8 @@ $("#trash").droppable({
   out: function(event, ui) {
     console.log("out");
   }
-  ui.draggable.remove() ;
+});
+
+$("#modalDueDate").datepicker({
+  minDate: 1
 });

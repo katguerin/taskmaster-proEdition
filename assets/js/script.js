@@ -1,11 +1,15 @@
 var tasks = {};
 
 var auditTask = function(taskEL) {
+
   var date = $(taskEL).find("span").text().trim();
+
   var time = moment(date, "L").set("hour", 17);
+
   $(taskEL).removeClass("list-group-item-warning list-group-item-danger");
   if (moment().isAfter(time)) {
     $(taskEL).addClass("list-group-item-danger");
+    
   }
   else if (Math.abs(moment().diff(time, "days")) <= 2) {
     $(taskEL).addClass("list-group-item-warning");
@@ -113,7 +117,9 @@ $(".list-group").on("blur", "textarea", function() {
     .index(); 
 
   tasks[status][index].text = text;
+  console.dir(tasks);
   saveTasks();  
+
 
   var taskP = $("<p>")
     .addClass("m-1")
@@ -158,32 +164,32 @@ $(".list-group").on("change", "input[type='text']", function() {
   var taskSpan = $("<span>").addClass("badge badge-primary badge-pill").text(date);
   $(this).replaceWith(taskSpan);
 
-  auditTask($(taskSpan).closest(".list-group-itme"));
+  auditTask($(taskSpan).closest(".list-group-item"));
 });
 
-//   // get the parent ul's id attribute
-//   var status = $(this)
-//     .closest(".list-group")
-//     .attr("id")
-//     .replace("list-", "");
+  // // get the parent ul's id attribute
+  // var status = $(this)
+  //   .closest(".list-group")
+  //   .attr("id")
+  //   .replace("list-", "");
 
-//   // get the task's position in the list of other li elements
-//   var index = $(this)
-//     .closest(".list-group-item")
-//     .index();
+  // // get the task's position in the list of other li elements
+  // var index = $(this)
+  //   .closest(".list-group-item")
+  //   .index();
 
-//   // update task in array and re-save to localstorage
-//   tasks[status][index].date = date;
-//   saveTasks();
+  // // update task in array and re-save to localstorage
+  // tasks[status][index].date = date;
+  // saveTasks();
 
-//   // recreate span element with bootstrap classes
-//   var taskSpan = $("<span>")
-//     .addClass("badge badge-primary badge-pill")
-//     .text(date);
+  // // recreate span element with bootstrap classes
+  // var taskSpan = $("<span>")
+  //   .addClass("badge badge-primary badge-pill")
+  //   .text(date);
 
-//   // replace input with span element
-//   $(this).replaceWith(taskSpan);
-// });
+  // // replace input with span element
+  // $(this).replaceWith(taskSpan);
+
 
 // remove all tasks
 $("#remove-tasks").on("click", function() {
